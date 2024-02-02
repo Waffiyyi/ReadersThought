@@ -34,9 +34,9 @@ function SignedInLinks() {
                 </NavLink>
             </li>
             <li>
-                <a href="/" className="nav-link" onClick={handleLogout}> 
+                <NavLink to={'/'} className="nav-link" onClick={handleLogout}> 
                     LogOut
-                </a>
+                </NavLink>
             </li>
             <li>
                 <NavLink to={"/entrylist"} className="profile-avatar">
