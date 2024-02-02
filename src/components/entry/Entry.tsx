@@ -44,7 +44,7 @@ const Entry: React.FC = () => {
       setLoading(true); 
 
       await saveDataToFirebase({
-        id: uuidv4(), // Generate a random id
+        id: uuidv4(), 
         date,
         title,
         thought,
