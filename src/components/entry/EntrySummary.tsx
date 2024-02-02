@@ -20,6 +20,10 @@ const EntrySummary: React.FC = () => {
     try {
       dispatch(clearError());
       const db = getFirestore();
+      if (!id) {
+        dispatch(setError("Entry ID not provided"));
+        return;
+      }
       const entryRef = doc(db, "entry", id);
       const docSnap = await getDoc(entryRef);
       if (docSnap.exists()) {

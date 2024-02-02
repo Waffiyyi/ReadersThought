@@ -6,9 +6,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ImageUploader from "./ImageUploader";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../reduxconfig/store";
+import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import "./Entry.css";
 
 export interface EntryData {
+  id: string; // Add id field to EntryData interface
   date: string;
   title: string;
   thought: string;
@@ -42,6 +44,7 @@ const Entry: React.FC = () => {
       setLoading(true); 
 
       await saveDataToFirebase({
+        id: uuidv4(), // Generate a random id
         date,
         title,
         thought,
@@ -63,12 +66,14 @@ const Entry: React.FC = () => {
   };
 
   const saveDataToFirebase = async ({
+    id,
     date,
     title,
     thought,
     images,
     userId
   }: {
+    id: string;
     date: string;
     title: string;
     thought: string;
@@ -78,7 +83,7 @@ const Entry: React.FC = () => {
     const db = getFirestore();
     const storage = getStorage();
 
-    const entryData: EntryData = { date, title, thought };
+    const entryData: EntryData = { id, date, title, thought };
 
     const imageURLs = [];
 

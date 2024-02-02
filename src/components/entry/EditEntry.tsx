@@ -7,7 +7,7 @@ import {
   doc,
   getDoc,
   updateDoc,
-  deleteDoc,
+  DocumentData,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -22,39 +22,40 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./EditEntry.css";
 
 const EditEntry: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id?: string }>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [entry, setEntry] = useState<EntryData>({
+    id: "",
     date: "",
     title: "",
     thought: "",
     imageURLs: [],
   });
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [loading, setLoading] = useState<boolean>(false);
   const error = useSelector((state: RootState) => state.auth.error);
   const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
-    fetchEntry();
+    if (id) fetchEntry();
   }, [id]);
 
   const fetchEntry = async () => {
     try {
       dispatch(clearError());
       const db = getFirestore();
-      const entryRef = doc(db, "entry", id);
+      if (!db) {
+        throw new Error("Firestore is not initialized");
+      }
+      const entryRef = doc(db, "entry", id!);
       const docSnap = await getDoc(entryRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        if (data) {
-         
-          if (data.userId === user.uid) {
-            setEntry(data as EntryData);
-          } else {
-            dispatch(setError("You are not authorized to edit this entry"));
-          }
+        if (data && data.userId === user?.uid) {
+          setEntry(data as EntryData);
+        } else {
+          dispatch(setError("You are not authorized to edit this entry"));
         }
       } else {
         dispatch(setError("Entry not found"));
@@ -62,10 +63,6 @@ const EditEntry: React.FC = () => {
     } catch (error: any) {
       dispatch(setError(error.message));
     }
-  };
-
-  const handleImageSelect = (imageFiles: File[]) => {
-    setSelectedImages(imageFiles);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,21 +73,24 @@ const EditEntry: React.FC = () => {
         alert("Date and title can't be null");
         return;
       }
-      setLoading(true); 
+      setLoading(true);
       await updateEntry();
       navigate(`/entry/${id}`);
     } catch (error: any) {
       dispatch(setError(error.message));
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   const updateEntry = async () => {
     const db = getFirestore();
-    const entryRef = doc(db, "entry", id);
+    if (!db) {
+      throw new Error("Firestore is not initialized");
+    }
+    const entryRef = doc(db, "entry", id!);
 
-    const updatedEntryData: EntryData = { ...entry };
+    const updatedEntryData: DocumentData = { ...entry };
 
     if (selectedImages.length > 0) {
       const storage = getStorage();
@@ -109,16 +109,22 @@ const EditEntry: React.FC = () => {
 
   const deleteImage = async (index: number) => {
     try {
-      const imageURLToDelete = entry.imageURLs[index];
+      const imageURLToDelete = entry.imageURLs?.[index];
+      if (!imageURLToDelete) {
+        throw new Error("Image URL is not found");
+      }
       const storage = getStorage();
       const imageRef = ref(storage, imageURLToDelete);
       await deleteObject(imageRef);
 
-      const updatedImages = [...entry.imageURLs];
+      const updatedImages = entry.imageURLs ? [...entry.imageURLs] : [];
       updatedImages.splice(index, 1);
 
       const db = getFirestore();
-      const entryRef = doc(db, "entry", id);
+      if (!db) {
+        throw new Error("Firestore is not initialized");
+      }
+      const entryRef = doc(db, "entry", id!);
       await updateDoc(entryRef, { ...entry, imageURLs: updatedImages });
 
       setEntry({ ...entry, imageURLs: updatedImages });
@@ -127,15 +133,21 @@ const EditEntry: React.FC = () => {
     }
   };
 
+  const handleImageSelect = (imageFiles: File[]) => {
+    setSelectedImages(imageFiles);
+  };
+
   return (
     <>
       <div>
-       
         <form onSubmit={handleSubmit}>
           <div className="date-container">
-          <button className="cancel-btn" onClick={() => navigate(`/entry/${id}`)}>
-          &#60;
-        </button>
+            <button
+              className="cancel-btn"
+              onClick={() => navigate(`/entry/${id}`)}
+            >
+              &#60;
+            </button>
             <input
               type="date"
               className="date-input"
@@ -145,7 +157,7 @@ const EditEntry: React.FC = () => {
           </div>
           <div className="title-container">
             <textarea
-            placeholder="Title"
+              placeholder="Title"
               className="title-input"
               value={entry.title}
               onChange={(e) => setEntry({ ...entry, title: e.target.value })}
@@ -153,7 +165,7 @@ const EditEntry: React.FC = () => {
           </div>
           <div className="thought-container">
             <textarea
-            placeholder="Thought"
+              placeholder="Thought"
               className="thought-input"
               value={entry.thought}
               onChange={(e) => setEntry({ ...entry, thought: e.target.value })}
@@ -180,7 +192,7 @@ const EditEntry: React.FC = () => {
               ))}
           </div>
           {error && <p>Error: {error}</p>}
-         
+
           <div className="button-container">
             <button type="submit" className="update-btn" disabled={loading}>
               {loading ? (
@@ -190,10 +202,9 @@ const EditEntry: React.FC = () => {
               )}
             </button>
           </div>
-          <div className="u-i-btn" >
+          <div className="u-i-btn">
             <ImageUploader onImageSelect={handleImageSelect} />
           </div>
-         
         </form>
       </div>
     </>
