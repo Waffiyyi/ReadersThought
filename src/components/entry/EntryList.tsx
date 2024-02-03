@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../reduxconfig/store";
 import { setError } from "../../reduxconfig/store";
@@ -30,6 +30,10 @@ const EntryList: React.FC = () => {
         const dateString = new Date(data.date).toDateString();
         entriesData.push({ id: doc.id, date: dateString, title: data.title, thought: data.thought });
       });
+      
+
+      entriesData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      
       setEntries(entriesData);
     } catch (error: any) {
       setError(error.message); 
@@ -80,4 +84,3 @@ const EntryList: React.FC = () => {
 };
 
 export default EntryList;
-
