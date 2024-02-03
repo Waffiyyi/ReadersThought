@@ -6,11 +6,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ImageUploader from "./ImageUploader";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../reduxconfig/store";
-import { v4 as uuidv4 } from 'uuid'; // Import uuid
+import { v4 as uuidv4 } from 'uuid'; 
 import "./Entry.css";
 
 export interface EntryData {
-  id: string; // Add id field to EntryData interface
+  id: string;
   date: string;
   title: string;
   thought: string;
@@ -146,7 +146,7 @@ const Entry: React.FC = () => {
             <div className="image-container">
               {selectedImages.map((image, index) => (
                 <div className="b-cont" key={index}>
-                  <img
+                  <img style={{width: `${300}px`}}
                     src={URL.createObjectURL(image)}
                     alt={`Selected ${index + 1}`}
                     className="image" 

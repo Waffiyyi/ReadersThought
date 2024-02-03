@@ -182,7 +182,7 @@ const EditEntry: React.FC = () => {
           <div className="image-container">
             {(entry.imageURLs ?? []).map((imageURL, index) => (
               <div key={index} className="image-item">
-                <img
+                <img style={{width: `${300}px`}}
                   src={imageURL}
                   alt={`Selected ${index + 1}`}
                   className="image"
