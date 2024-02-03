@@ -75,3 +75,23 @@
     font-weight: bold;
     text-decoration: none;
 }
+
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-brand {
+        margin-bottom: 20px;
+    }
+
+    .navbar-links {
+        margin-top: 20px;
+    }
+
+    .signed-in-links li,
+    .signed-out-links li {
+        margin-bottom: 15px; 
+    }
+}
