@@ -90,6 +90,24 @@
     overflow: hidden; 
     animation: typing 3s steps(30, end);
   }
+  @media screen and (max-width: 600px) {
+    .signin-form, .signup-form {
+      width: 90%;
+      margin: auto;
+    }
+  
+    .signin-title, .signup-title {
+      font-size: 28px;
+    }
+  
+    .signin-input, .signup-input {
+      margin-left: 0;
+    }
+  
+    .signin-button button, .signup-button button {
+      width: 100%;
+    }
+  }
   
   @keyframes typing {
     from {
