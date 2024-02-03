@@ -94,7 +94,7 @@ const EditEntry: React.FC = () => {
 
     if (selectedImages.length > 0) {
       const storage = getStorage();
-      const imageURLs = [];
+      const imageURLs = [...(entry.imageURLs ?? [])];
       for (const image of selectedImages) {
         const storageRef = ref(storage, `images/${image.name}`);
         await uploadBytes(storageRef, image);
@@ -102,6 +102,11 @@ const EditEntry: React.FC = () => {
         imageURLs.push(imageURL);
       }
       updatedEntryData.imageURLs = imageURLs;
+
+      setEntry((prevEntry) => ({
+        ...prevEntry,
+        imageURLs: updatedEntryData.imageURLs,
+      }));
     }
 
     await updateDoc(entryRef, updatedEntryData);
@@ -168,28 +173,29 @@ const EditEntry: React.FC = () => {
               placeholder="Thought"
               className="thought-input"
               value={entry.thought}
-              onChange={(e) => setEntry({ ...entry, thought: e.target.value })}
+              onChange={(e) =>
+                setEntry({ ...entry, thought: e.target.value })
+              }
             />
           </div>
 
           <div className="image-container">
-            {entry.imageURLs &&
-              entry.imageURLs.map((imageURL, index) => (
-                <div key={index} className="image-item">
-                  <img
-                    src={imageURL}
-                    alt={`Selected ${index + 1}`}
-                    className="image"
-                  />
-                  <button
-                    type="button"
-                    className="delete-btn"
-                    onClick={() => deleteImage(index)}
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
+            {(entry.imageURLs ?? []).map((imageURL, index) => (
+              <div key={index} className="image-item">
+                <img
+                  src={imageURL}
+                  alt={`Selected ${index + 1}`}
+                  className="image"
+                />
+                <button
+                  type="button"
+                  className="delete-btn"
+                  onClick={() => deleteImage(index)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
           </div>
           {error && <p>Error: {error}</p>}
 
