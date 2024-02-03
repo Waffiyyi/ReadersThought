@@ -11,7 +11,7 @@
   .date-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 50px;
   }
   
@@ -22,7 +22,6 @@
     width: 150px;
     margin-top: 30px;
   }
-  
   .title-container, .thought-container {
     margin-bottom: 20px;
     width: 100%;
