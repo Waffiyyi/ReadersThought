@@ -35,7 +35,7 @@ const styles = {
         },
         "&.Mui-focused fieldset": {
             borderColor: "#06b6d4",
-            color: "#06b6d4",
+            color: "#ffffff",
         },
     },
     "& .MuiOutlinedInput-input": {
@@ -138,7 +138,7 @@ const Entry: React.FC = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <motion.div
-                className="container mx-auto py-10 px-5 bg-gray-900 text-white h-screen flex justify-center items-center"
+                className="mx-auto py-10 px-5 bg-gray-900 text-white min-h-screen flex justify-center items-center"
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
                 transition={{duration: 0.5}}

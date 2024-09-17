@@ -40,7 +40,7 @@ const styles = {
     },
     "&.Mui-focused fieldset": {
       borderColor: "#06b6d4",
-      color: "#06b6d4",
+      color: "#ffffff",
     },
   },
   "& .MuiOutlinedInput-input": {

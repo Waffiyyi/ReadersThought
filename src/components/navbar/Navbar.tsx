@@ -33,7 +33,7 @@ function Navbar() {
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <div className="container overflow-hidden mx-auto flex justify-between items-center">
+            <div className="container mx-auto mb-0 flex justify-between items-center">
                 <Link
                     to="/entries"
                     className="text-cyan-400 text-3xl font-bold hover:text-cyan-300 transition duration-300 sm:text-xl"
@@ -82,6 +82,6 @@ function Navbar() {
             )}
         </motion.nav>
     );
-}
+ }
 
 export default Navbar;

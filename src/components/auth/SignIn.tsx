@@ -35,10 +35,10 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div className="signin-container flex justify-center items-center h-[100vh] bg-gray-900 overflow-hidden px-4">
+        <div className="flex items-center justify-center min-h-screen bg-gray-900">
             <form
                 onSubmit={handleSubmit}
-                className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full space-y-6 sm:mx-2"
+                className="bg-gray-800 p-8 rounded-lg max-w-md w-full space-y-6"
             >
                 <h5 className="text-white text-2xl font-bold sm:text-xl">Sign In</h5>
                 <div>
