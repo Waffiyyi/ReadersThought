@@ -16,19 +16,20 @@ function SignedInLinks({ profileInitial, handleLogout }: SignedInLinksProps) {
             <li>
                 <NavLink
                     to={"/entrylist"}
-                    className="text-cyan-400 font-semibold hover:text-cyan-300 transition duration-300"
-                >
-                    MyThoughts
-                </NavLink>
-            </li>
-            <li>
-                <NavLink
-                    to={"/entrylist"}
                     className="bg-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold"
                 >
                     {profileInitial}
                 </NavLink>
             </li>
+            <li>
+                <NavLink
+                    to={"/entrylist"}
+                    className="text-cyan-400 font-semibold hover:text-cyan-300 transition duration-300"
+                >
+                    MyThoughts
+                </NavLink>
+            </li>
+
             <li>
                 <a
                     href="/"
