@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyAcNUzkHrNLkOvzTNt0xDH3c-Un9fUBjFo",
@@ -11,17 +10,17 @@ const firebaseConfig = {
     messagingSenderId: "705275473552",
     appId: "1:705275473552:web:672a7c72a8aa68e880b215",
     measurementId: "G-SBN3ZGRHBT"
-  };
+};
 
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-  export const auth = getAuth(app);
-  setPersistence(auth, browserSessionPersistence)
+export const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence)
     .then(() => {
-  
+
     })
     .catch((error) => {
-      console.error("Error enabling session persistence:", error);
+        console.error("Error enabling local persistence:", error);
     });
-  
-  export const db = getFirestore(app);
+
+export const db = getFirestore(app);

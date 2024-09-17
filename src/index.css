@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@media (max-width: 640px) {
+    .text-3xl {
+        font-size: 1.25rem;
+    }
+}
+body {
+    background-color: rgb(17 24 39);
+    color: white;
+    /*overflow: hidden;*/
+}

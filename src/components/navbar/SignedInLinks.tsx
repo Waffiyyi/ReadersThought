@@ -1,50 +1,44 @@
-import { useSelector } from "react-redux";
-import { selectUser } from "../../reduxconfig/store";
-import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from "../../firebaseConfig";
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../../reduxconfig/store';
-import "./Navbar.css";
+import {NavLink} from "react-router-dom";
+import { motion } from "framer-motion";
+interface SignedInLinksProps {
+    profileInitial: string;
+    handleLogout: () => void;
+}
 
-function SignedInLinks() {
-    const user = useSelector(selectUser);
-    const dispatch = useDispatch();
-    const navigate = useNavigate(); 
-    const profileInitial = user ? user.email.charAt(0).toUpperCase() : "NN";
-
-    const handleLogout = () => {
-        auth.signOut()
-            .then(() => {
-               
-                dispatch(clearUser());
-                navigate("/"); 
-            })
-            .catch((error) => {
-                console.error("Error logging out:", error);
-            });
-    };
-
-
-
+function SignedInLinks({ profileInitial, handleLogout }: SignedInLinksProps) {
     return (
-        <ul className="signed-in-links">
+        <motion.ul
+            className="flex space-x-4 items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+        >
             <li>
-                <NavLink to={"/entrylist"} className="nav-link">
+                <NavLink
+                    to={"/entrylist"}
+                    className="text-cyan-400 font-semibold hover:text-cyan-300 transition duration-300"
+                >
                     MyThoughts
                 </NavLink>
             </li>
             <li>
-                <a href="/" className="nav-link" onClick={handleLogout}> 
-                    LogOut
-                </a>
-            </li>
-            <li>
-                <NavLink to={"/entrylist"} className="profile-avatar">
+                <NavLink
+                    to={"/entrylist"}
+                    className="bg-gray-700 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold"
+                >
                     {profileInitial}
                 </NavLink>
             </li>
-        </ul>
+            <li>
+                <a
+                    href="/"
+                    className="text-cyan-400 font-semibold hover:text-cyan-300 transition duration-300"
+                    onClick={handleLogout}
+                >
+                    LogOut
+                </a>
+            </li>
+        </motion.ul>
     );
 }
-
 export default SignedInLinks;
