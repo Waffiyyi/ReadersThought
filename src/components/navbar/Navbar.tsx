@@ -35,7 +35,7 @@ function Navbar() {
         >
             <div className="container mx-auto mb-0 flex justify-between items-center">
                 <Link
-                    to="/entrlist"
+                    to="/entrylist"
                     className="text-cyan-400 text-3xl font-bold hover:text-cyan-300 transition duration-300 sm:text-xl"
                 >
                     ReadersThought
