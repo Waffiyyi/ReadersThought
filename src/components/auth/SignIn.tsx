@@ -4,6 +4,7 @@ import { auth } from "../../firebaseConfig";
 import { useDispatch } from "react-redux";
 import { setError, setUserAuth } from "../../reduxconfig/store";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import motion
 
 const SignIn: React.FC = () => {
     const dispatch = useDispatch();
@@ -36,9 +37,12 @@ const SignIn: React.FC = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-900">
-            <form
+            <motion.form
                 onSubmit={handleSubmit}
                 className="bg-gray-800 p-8 rounded-lg max-w-md w-full space-y-6"
+                initial={{ x: "-100vw", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 40, damping: 15 }}
             >
                 <h5 className="text-white text-2xl font-bold sm:text-xl">Sign In</h5>
                 <div>
@@ -74,7 +78,7 @@ const SignIn: React.FC = () => {
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
-            </form>
+            </motion.form>
         </div>
     );
 };
