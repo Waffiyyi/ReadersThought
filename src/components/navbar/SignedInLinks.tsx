@@ -23,7 +23,7 @@ function SignedInLinks({ profileInitial, handleLogout }: SignedInLinksProps) {
             </li>
             <li>
                 <NavLink
-                    to={"/entry"}
+                    to={"/entries"}
                     className="text-cyan-400 font-semibold hover:text-cyan-300 transition duration-300"
                 >
                     NewThought
